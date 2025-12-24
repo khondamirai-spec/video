@@ -1,26 +1,825 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-card: #111111;
+  --text-primary: #fafafa;
+  --text-secondary: #a3a3a3;
+  --accent: #f43f5e;
+  --accent-glow: rgba(244, 63, 94, 0.3);
+  --border: #262626;
+  --overlay: rgba(0, 0, 0, 0.7);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Swipe Container - Continuous Scroll */
+.swipe-container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 0.5rem 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* Each Video Page */
+.video-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 1rem;
+  position: relative;
+}
+
+/* 2x2 Grid */
+.grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.grid-2x2 .video-card {
+  aspect-ratio: 9/16;
+}
+
+@media (min-width: 640px) {
+  .grid-2x2 {
+    gap: 0.75rem;
+    max-width: 500px;
+  }
+}
+
+@media (min-width: 768px) {
+  .video-page {
+    padding: 0.5rem 2rem;
+  }
+  
+  .grid-2x2 {
+    gap: 1rem;
+    max-width: 600px;
+  }
+}
+
+
+/* Legacy grid container - keeping for compatibility */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 320px;
+}
+
+@media (min-width: 640px) {
+  .grid-container {
+    gap: 1rem;
+    max-width: 400px;
+  }
+}
+
+/* Video Card */
+.video-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  background: var(--bg-card);
+  border-radius: 0.75rem;
+}
+
+/* In 2x2 grid, cards should fill the cell */
+.grid-2x2 .video-card {
+  aspect-ratio: auto;
+}
+
+.thumbnail-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.video-card:hover .thumbnail,
+.video-card:active .thumbnail {
+  transform: scale(1.05);
+  filter: brightness(0.7);
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    transparent 50%,
+    transparent 100%
+  );
+}
+
+.video-card:hover .overlay,
+.video-card:active .overlay {
+  opacity: 1;
+}
+
+.play-icon {
+  width: 3rem;
+  height: 3rem;
+  color: white;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+  transition: transform 0.2s ease;
+}
+
+.video-card:hover .play-icon {
+  transform: scale(1.1);
+}
+
+/* View Count Badge */
+.view-count {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+}
+
+.view-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* Card Like Button - Aesthetic Heart */
+.card-like-btn {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0.35rem 0.5rem;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-like-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.card-like-btn:active {
+  transform: scale(0.95);
+}
+
+.card-heart-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.card-like-btn:hover .card-heart-icon {
+  color: #ff6b81;
+  transform: scale(1.1);
+}
+
+/* Liked state */
+.card-like-btn.liked .card-heart-icon {
+  color: #ff3b5c;
+  filter: drop-shadow(0 0 8px rgba(255, 59, 92, 0.6));
+}
+
+/* Heart animation on like */
+.card-like-btn.animating .card-heart-icon {
+  animation: heartPop 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+}
+
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.4);
+  }
+  40% {
+    transform: scale(0.9);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Particle burst on like */
+.card-like-btn.animating::before,
+.card-like-btn.animating::after {
+  content: '❤️';
+  position: absolute;
+  font-size: 0.6rem;
+  animation: particleBurst 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+.card-like-btn.animating::before {
+  top: -0.25rem;
+  left: 0;
+  animation-delay: 0.05s;
+}
+
+.card-like-btn.animating::after {
+  top: -0.25rem;
+  right: 0;
+  animation-delay: 0.1s;
+}
+
+@keyframes particleBurst {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-1.5rem) scale(1);
+  }
+}
+
+.like-count-text {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+
+.card-like-btn.liked .like-count-text {
+  color: #ff6b81;
+}
+
+/* Glow ring on liked state */
+.card-like-btn.liked {
+  background: rgba(255, 59, 92, 0.15);
+  border-color: rgba(255, 59, 92, 0.3);
+  box-shadow: 0 0 12px rgba(255, 59, 92, 0.2);
+}
+
+/* Skeleton Loading */
+.skeleton {
+  aspect-ratio: 1;
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--bg-secondary) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.75rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Modal Backdrop - Reels Style */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Content - Vertical Reels Style */
+.modal-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  animation: scaleIn 0.25s ease;
+}
+
+@media (min-width: 640px) {
+  .modal-content {
+    width: auto;
+    height: 90vh;
+    max-height: 900px;
+    aspect-ratio: 9/16;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Back Button */
+.back-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: scale(1.05);
+}
+
+.back-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Video Wrapper - Full Reels */
+.video-wrapper {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  cursor: pointer;
+}
+
+.video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+/* Pause Overlay */
+.pause-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.play-button-large {
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  color: white;
+}
+
+.play-button-large svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: 0.25rem;
+}
+
+/* Video Info */
+.video-info {
+  padding: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.video-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.video-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.video-stats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.view-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.view-badge svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.watch-progress {
+  font-size: 0.75rem;
+  color: var(--accent);
+  padding: 0.25rem 0.75rem;
+  background: var(--accent-glow);
+  border-radius: 1rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* View Notice Toast */
+.view-notice {
+  position: absolute;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+  animation: popIn 0.3s ease;
+}
+
+.view-notice svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+/* Instagram-style Action Buttons */
+.action-buttons {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  z-index: 10;
+}
+
+@media (min-width: 640px) {
+  .action-buttons {
+    right: 1rem;
+    bottom: 10rem;
+  }
+}
+
+/* Like Button - Instagram Style */
+.like-button {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+
+.like-button:active {
+  transform: scale(0.9);
+}
+
+.heart-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  transition: transform 0.15s ease;
+}
+
+.like-button:hover .heart-icon {
+  transform: scale(1.1);
+}
+
+/* Filled heart - Liked state */
+.like-button.liked .heart-icon.filled {
+  color: #ff3040;
+  animation: likeHeartBounce 0.45s ease;
+}
+
+@keyframes likeHeartBounce {
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.35);
+  }
+  30% {
+    transform: scale(0.9);
+  }
+  45% {
+    transform: scale(1.15);
+  }
+  60% {
+    transform: scale(0.95);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Double-tap heart animation in center */
+.double-tap-heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 15;
+}
+
+.double-tap-heart svg {
+  width: 6rem;
+  height: 6rem;
+  color: #ff3040;
+  filter: drop-shadow(0 4px 12px rgba(255, 48, 64, 0.5));
+  animation: doubleTapHeart 1s ease forwards;
+}
+
+@keyframes doubleTapHeart {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  30% {
+    transform: scale(0.95);
+  }
+  45% {
+    transform: scale(1.1);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Custom Video Controls Styling */
+video::-webkit-media-controls {
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+video::-webkit-media-controls-panel {
+  background: transparent;
+}
+
+/* Aesthetic Watermark Overlay */
+.watermark-overlay {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0.85;
+  animation: watermarkFadeIn 0.8s ease-out forwards;
+}
+
+@keyframes watermarkFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 0.85;
+    transform: translateY(0);
+  }
+}
+
+.watermark-svg {
+  width: 140px;
+  height: 70px;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+}
+
+@media (min-width: 640px) {
+  .watermark-svg {
+    width: 180px;
+    height: 90px;
+  }
+  
+  .watermark-overlay {
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+}
+
+/* Watermark text styles - need to use CSS for SVG text */
+.watermark-text-main {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 28px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+.watermark-text-accent {
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.watermark-text-sub {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: lowercase;
+}
+
+.watermark-text-highlight {
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Subtle animation on watermark */
+.watermark-overlay:hover {
+  opacity: 1;
+}
+
+/* Pulsing glow effect */
+.watermark-svg {
+  animation: subtleGlow 4s ease-in-out infinite;
+}
+
+@keyframes subtleGlow {
+  0%, 100% {
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4)) 
+            drop-shadow(0 0 8px rgba(196, 79, 255, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4)) 
+            drop-shadow(0 0 16px rgba(255, 107, 157, 0.35));
+  }
+}
+
+/* Touch feedback for mobile */
+@media (hover: none) {
+  .video-card:active .thumbnail {
+    transform: scale(0.98);
+    filter: brightness(0.8);
+  }
+  
+  .video-card:active .overlay {
+    opacity: 1;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: white;
 }
