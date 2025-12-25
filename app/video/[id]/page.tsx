@@ -117,9 +117,6 @@ export default function VideoPlayer() {
         playsInline
         loop
         preload="auto"
-        // @ts-expect-error - webkit-playsinline is needed for older iOS
-        webkit-playsinline="true"
-        x-webkit-airplay="allow"
         onPlay={() => {
           setIsPlaying(true);
           setShowTapToPlay(false);
