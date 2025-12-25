@@ -68,6 +68,7 @@ export default function VideoPlayer() {
         className="h-full w-full object-contain"
         src={VIDEO_URL}
         autoPlay
+        muted
         playsInline
         loop
         onPlay={() => setIsPlaying(true)}
@@ -103,4 +104,5 @@ export default function VideoPlayer() {
     </div>
   );
 }
+
 
