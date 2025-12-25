@@ -12,57 +12,87 @@ export default function VideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showTapToPlay, setShowTapToPlay] = useState(false);
 
-  // Attempt to autoplay on mount - handle iOS restrictions
+  // Attempt autoplay with sound on mount
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // iOS needs the video to be loaded before playing
-    const attemptPlay = async () => {
+    const attemptAutoplay = async () => {
       try {
-        // Ensure video is muted (required for autoplay on iOS)
-        video.muted = true;
+        // Try to play with sound first
+        video.muted = false;
         await video.play();
         setIsPlaying(true);
         setShowTapToPlay(false);
       } catch (error) {
-        // Autoplay was prevented - show tap to play message
-        console.log("Autoplay prevented:", error);
-        setIsPlaying(false);
-        setShowTapToPlay(true);
+        // Autoplay with sound blocked, try muted autoplay
+        console.log("Autoplay with sound blocked, trying muted:", error);
+        try {
+          video.muted = true;
+          await video.play();
+          setIsPlaying(true);
+          setShowTapToPlay(false);
+          // Unmute after a tiny delay (works on some browsers)
+          setTimeout(() => {
+            video.muted = false;
+          }, 100);
+        } catch (mutedError) {
+          // Even muted autoplay blocked, show tap to play
+          console.log("Muted autoplay also blocked:", mutedError);
+          setShowTapToPlay(true);
+        }
       }
     };
 
-    // Wait for video to be ready
     if (video.readyState >= 2) {
-      attemptPlay();
+      attemptAutoplay();
     } else {
-      video.addEventListener("loadeddata", attemptPlay, { once: true });
+      video.addEventListener("loadeddata", attemptAutoplay, { once: true });
     }
 
     return () => {
-      video.removeEventListener("loadeddata", attemptPlay);
+      video.removeEventListener("loadeddata", attemptAutoplay);
     };
+  }, []);
+
+  // Play with sound when user taps
+  const playWithSound = useCallback(async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    try {
+      video.muted = false;
+      await video.play();
+      setIsPlaying(true);
+      setShowTapToPlay(false);
+    } catch (error) {
+      console.log("Play error:", error);
+      setShowTapToPlay(true);
+    }
   }, []);
 
   const togglePlayPause = useCallback(async () => {
     const video = videoRef.current;
     if (!video) return;
 
+    // If showing tap to play, play with sound
+    if (showTapToPlay) {
+      playWithSound();
+      return;
+    }
+
     try {
       if (video.paused) {
         await video.play();
         setIsPlaying(true);
-        setShowTapToPlay(false);
       } else {
         video.pause();
         setIsPlaying(false);
       }
     } catch (error) {
       console.log("Play error:", error);
-      setShowTapToPlay(true);
     }
-  }, []);
+  }, [showTapToPlay, playWithSound]);
 
   const handleBack = useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
@@ -107,13 +137,12 @@ export default function VideoPlayer() {
         </svg>
       </button>
 
-      {/* Video Element - iOS optimized */}
+      {/* Video Element */}
       <video
         ref={videoRef}
         className="h-full w-full object-contain"
         src={VIDEO_URL}
         autoPlay
-        muted
         playsInline
         loop
         preload="auto"
@@ -122,30 +151,19 @@ export default function VideoPlayer() {
           setShowTapToPlay(false);
         }}
         onPause={() => setIsPlaying(false)}
-        onCanPlay={() => {
-          // Try to play when video can play
-          if (videoRef.current?.paused && !showTapToPlay) {
-            videoRef.current.play().catch(() => {
-              setShowTapToPlay(true);
-            });
-          }
-        }}
       />
 
-      {/* Tap to Play Overlay for iOS */}
+      {/* Tap to Play Overlay */}
       {showTapToPlay && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
-          <div className="flex flex-col items-center gap-3">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-              <svg
-                className="h-10 w-10 text-white ml-1"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-            <p className="text-white text-sm font-medium">Tap to play</p>
+        <div className="absolute inset-0 flex items-center justify-center bg-black/30 z-10">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+            <svg
+              className="h-10 w-10 text-white ml-1"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
           </div>
         </div>
       )}
