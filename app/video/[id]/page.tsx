@@ -12,47 +12,14 @@ export default function VideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showTapToPlay, setShowTapToPlay] = useState(false);
 
-  // Attempt autoplay with sound on mount
+  // Attempt autoplay handled by video attributes
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const attemptAutoplay = async () => {
-      try {
-        // Try to play with sound first
-        video.muted = false;
-        await video.play();
-        setIsPlaying(true);
-        setShowTapToPlay(false);
-      } catch (error) {
-        // Autoplay with sound blocked, try muted autoplay
-        console.log("Autoplay with sound blocked, trying muted:", error);
-        try {
-          video.muted = true;
-          await video.play();
-          setIsPlaying(true);
-          setShowTapToPlay(false);
-          // Unmute after a tiny delay (works on some browsers)
-          setTimeout(() => {
-            video.muted = false;
-          }, 100);
-        } catch (mutedError) {
-          // Even muted autoplay blocked, show tap to play
-          console.log("Muted autoplay also blocked:", mutedError);
-          setShowTapToPlay(true);
-        }
-      }
-    };
-
-    if (video.readyState >= 2) {
-      attemptAutoplay();
-    } else {
-      video.addEventListener("loadeddata", attemptAutoplay, { once: true });
+    if (!video.paused) {
+      setIsPlaying(true);
     }
-
-    return () => {
-      video.removeEventListener("loadeddata", attemptAutoplay);
-    };
   }, []);
 
   // Play with sound when user taps
@@ -62,12 +29,13 @@ export default function VideoPlayer() {
 
     try {
       video.muted = false;
-      await video.play();
+      if (video.paused) {
+        await video.play();
+      }
       setIsPlaying(true);
       setShowTapToPlay(false);
     } catch (error) {
       console.log("Play error:", error);
-      setShowTapToPlay(true);
     }
   }, []);
 
@@ -75,8 +43,8 @@ export default function VideoPlayer() {
     const video = videoRef.current;
     if (!video) return;
 
-    // If showing tap to play, play with sound
-    if (showTapToPlay) {
+    // If showing tap to play or muted, play with sound
+    if (showTapToPlay || video.muted) {
       playWithSound();
       return;
     }
@@ -143,6 +111,7 @@ export default function VideoPlayer() {
         className="h-full w-full object-contain"
         src={VIDEO_URL}
         autoPlay
+        muted
         playsInline
         loop
         preload="auto"
