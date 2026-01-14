@@ -8,3 +8,5 @@ INSERT INTO videos (title, description, thumbnail_url, video_url, duration_secon
 ('Ustoz AI Interview 6', 'Additional interview content', '/14.png', 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/IMG_1253.MOV', 0),
 ('Ustoz AI Interview 7', 'Final interview in the series', '/15.png', 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/IMG_1255.MOV', 0);
 
+
+
