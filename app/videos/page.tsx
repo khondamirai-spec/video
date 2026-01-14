@@ -18,7 +18,7 @@ const mockVideos: Video[] = [
   {
     id: '1',
     title: 'Video',
-    video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/666666666666666666666666666.mp4',
+    video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/IMG_2402.MP4?v=2',
     thumbnail_url: '/1.png',
   },
 ]
