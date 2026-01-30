@@ -17,9 +17,27 @@ const R2_BASE_URL = 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev'
 const mockVideos: Video[] = [
   {
     id: '1',
-    title: 'Video',
-    video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/IMG_2402.MP4?v=2',
+    title: 'Ustoz AI Natija 1',
+    video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/q1.mp4',
     thumbnail_url: '/1.png',
+  },
+  {
+    id: '2',
+    title: 'Ustoz AI Natija 2',
+    video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/q2.mp4',
+    thumbnail_url: '/3.png',
+  },
+  {
+    id: '3',
+    title: 'Ustoz AI Natija 3',
+    video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/q3.mp4',
+    thumbnail_url: '/4.png',
+  },
+  {
+    id: '4',
+    title: 'Ustoz AI Natija 4',
+    video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/IMG_1276.MP4',
+    thumbnail_url: '/2.png',
   },
 ]
 
@@ -122,7 +140,7 @@ export default function VideosPage() {
               >
                 Your browser does not support the video tag.
               </video>
-              
+
               {isPaused && (
                 <div className="pause-overlay">
                   <div className="play-button-large">
