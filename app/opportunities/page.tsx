@@ -106,36 +106,6 @@ const opportunities: Opportunity[] = [
     icon: '/ICONS/Screenshot 2026-01-14 120753.png',
     url: 'https://nbu.uz/en',
   },
-  {
-    id: '17',
-    name: 'Upwork',
-    icon: '/ICONS/Screenshot 2026-02-07 162153.png',
-    url: 'https://www.upwork.com',
-  },
-  {
-    id: '18',
-    name: 'Fiverr',
-    icon: '/ICONS/Screenshot 2026-02-07 162215.png',
-    url: 'https://www.fiverr.com',
-  },
-  {
-    id: '19',
-    name: 'Toptal',
-    icon: '/ICONS/Screenshot 2026-02-07 162231.png',
-    url: 'https://www.toptal.com',
-  },
-  {
-    id: '20',
-    name: 'Freelancer.com',
-    icon: '/ICONS/Screenshot 2026-02-07 162257.png',
-    url: 'https://www.freelancer.com',
-  },
-  {
-    id: '21',
-    name: 'Guru',
-    icon: '/ICONS/Screenshot 2026-02-07 162322.png',
-    url: 'https://www.guru.com',
-  },
 ]
 
 export default function OpportunitiesPage() {

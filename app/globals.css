@@ -127,7 +127,7 @@ body {
   .video-page {
     padding: 0.5rem 2rem;
   }
-  
+
   .grid-2x2 {
     gap: 1rem;
     max-width: 600px;
@@ -195,12 +195,10 @@ body {
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8) 0%,
-    transparent 50%,
-    transparent 100%
-  );
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      transparent 50%,
+      transparent 100%);
 }
 
 .video-card:hover .overlay,
@@ -300,18 +298,23 @@ body {
   0% {
     transform: scale(1);
   }
+
   20% {
     transform: scale(1.4);
   }
+
   40% {
     transform: scale(0.9);
   }
+
   60% {
     transform: scale(1.2);
   }
+
   80% {
     transform: scale(0.95);
   }
+
   100% {
     transform: scale(1);
   }
@@ -344,6 +347,7 @@ body {
     opacity: 1;
     transform: translateY(0) scale(0.5);
   }
+
   100% {
     opacity: 0;
     transform: translateY(-1.5rem) scale(1);
@@ -373,12 +377,10 @@ body {
 /* Skeleton Loading */
 .skeleton {
   aspect-ratio: 1;
-  background: linear-gradient(
-    90deg,
-    var(--bg-card) 25%,
-    var(--bg-secondary) 50%,
-    var(--bg-card) 75%
-  );
+  background: linear-gradient(90deg,
+      var(--bg-card) 25%,
+      var(--bg-secondary) 50%,
+      var(--bg-card) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 0.75rem;
@@ -388,6 +390,7 @@ body {
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -409,6 +412,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -444,6 +448,7 @@ body {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -573,9 +578,12 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.7;
   }
@@ -610,6 +618,7 @@ body {
     opacity: 0;
     transform: translateX(-50%) scale(0.8);
   }
+
   100% {
     opacity: 1;
     transform: translateX(-50%) scale(1);
@@ -675,21 +684,27 @@ body {
   0% {
     transform: scale(1);
   }
+
   15% {
     transform: scale(1.35);
   }
+
   30% {
     transform: scale(0.9);
   }
+
   45% {
     transform: scale(1.15);
   }
+
   60% {
     transform: scale(0.95);
   }
+
   75% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1);
   }
@@ -718,20 +733,25 @@ body {
     opacity: 0;
     transform: scale(0);
   }
+
   15% {
     opacity: 1;
     transform: scale(1.2);
   }
+
   30% {
     transform: scale(0.95);
   }
+
   45% {
     transform: scale(1.1);
   }
+
   80% {
     opacity: 1;
     transform: scale(1);
   }
+
   100% {
     opacity: 0;
     transform: scale(1);
@@ -740,7 +760,7 @@ body {
 
 /* Custom Video Controls Styling */
 video::-webkit-media-controls {
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
 }
 
 video::-webkit-media-controls-panel {
@@ -763,6 +783,7 @@ video::-webkit-media-controls-panel {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   100% {
     opacity: 0.85;
     transform: translateY(0);
@@ -780,7 +801,7 @@ video::-webkit-media-controls-panel {
     width: 180px;
     height: 90px;
   }
-  
+
   .watermark-overlay {
     top: 1.5rem;
     left: 1.5rem;
@@ -830,13 +851,14 @@ video::-webkit-media-controls-panel {
 }
 
 @keyframes subtleGlow {
-  0%, 100% {
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4)) 
-            drop-shadow(0 0 8px rgba(196, 79, 255, 0.2));
+
+  0%,
+  100% {
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 8px rgba(196, 79, 255, 0.2));
   }
+
   50% {
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4)) 
-            drop-shadow(0 0 16px rgba(255, 107, 157, 0.35));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 16px rgba(255, 107, 157, 0.35));
   }
 }
 
@@ -846,7 +868,7 @@ video::-webkit-media-controls-panel {
     transform: scale(0.98);
     filter: brightness(0.8);
   }
-  
+
   .video-card:active .overlay {
     opacity: 1;
   }
@@ -882,11 +904,11 @@ video::-webkit-media-controls-panel {
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: #000000;
   padding: 2rem;
-  overflow: hidden;
   position: relative;
 }
 
@@ -905,6 +927,7 @@ video::-webkit-media-controls-panel {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -960,7 +983,7 @@ video::-webkit-media-controls-panel {
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
   color: white;
   border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(139, 92, 246, 0.4),
     0 10px 30px rgba(99, 102, 241, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -969,7 +992,7 @@ video::-webkit-media-controls-panel {
 
 .landing-button-primary:hover {
   transform: translateY(-8px);
-  box-shadow: 
+  box-shadow:
     0 30px 80px rgba(139, 92, 246, 0.5),
     0 15px 40px rgba(99, 102, 241, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -979,7 +1002,7 @@ video::-webkit-media-controls-panel {
 
 .landing-button-primary:active {
   transform: translateY(-4px);
-  box-shadow: 
+  box-shadow:
     0 15px 50px rgba(139, 92, 246, 0.4),
     0 8px 25px rgba(99, 102, 241, 0.3);
 }
@@ -988,7 +1011,7 @@ video::-webkit-media-controls-panel {
   background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
   color: white;
   border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(30, 41, 59, 0.5),
     0 10px 30px rgba(51, 65, 85, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -999,7 +1022,7 @@ video::-webkit-media-controls-panel {
   background: linear-gradient(135deg, #334155 0%, #475569 50%, #64748b 100%);
   border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-8px);
-  box-shadow: 
+  box-shadow:
     0 30px 80px rgba(30, 41, 59, 0.6),
     0 15px 40px rgba(51, 65, 85, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -1007,7 +1030,7 @@ video::-webkit-media-controls-panel {
 
 .landing-button-secondary:active {
   transform: translateY(-4px);
-  box-shadow: 
+  box-shadow:
     0 15px 50px rgba(30, 41, 59, 0.5),
     0 8px 25px rgba(51, 65, 85, 0.3);
 }
@@ -1034,6 +1057,47 @@ video::-webkit-media-controls-panel {
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
 }
 
+.landing-button-freelancing {
+  background: linear-gradient(135deg, #0ea5e9 0%, #2dd4bf 50%, #10b981 100%);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 0 20px rgba(14, 165, 233, 0.4),
+    0 0 40px rgba(45, 212, 191, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.landing-button-freelancing:hover {
+  background: linear-gradient(135deg, #0284c7 0%, #14b8a6 50%, #059669 100%);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-8px);
+  box-shadow:
+    0 0 30px rgba(14, 165, 233, 0.6),
+    0 0 60px rgba(45, 212, 191, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  animation: glowPulse 2s infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.4), 0 0 40px rgba(45, 212, 191, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 35px rgba(14, 165, 233, 0.8), 0 0 70px rgba(45, 212, 191, 0.5);
+  }
+
+  100% {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.4), 0 0 40px rgba(45, 212, 191, 0.2);
+  }
+}
+
+.landing-button-freelancing:active {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+}
+
 .landing-button span {
   position: relative;
   z-index: 1;
@@ -1048,12 +1112,12 @@ video::-webkit-media-controls-panel {
     border-width: 2px;
     gap: 1.25rem;
   }
-  
+
   .button-icon {
     width: 3.5rem;
     height: 3.5rem;
   }
-  
+
   .button-container {
     gap: 2.5rem;
     max-width: 90%;
@@ -1067,12 +1131,12 @@ video::-webkit-media-controls-panel {
     border-width: 2px;
     gap: 1rem;
   }
-  
+
   .button-icon {
     width: 3rem;
     height: 3rem;
   }
-  
+
   .button-container {
     gap: 2rem;
   }
@@ -1215,7 +1279,7 @@ video::-webkit-media-controls-panel {
     background: rgba(255, 255, 255, 0.12);
     transform: scale(0.98);
   }
-  
+
   .opportunity-row:active .opportunity-arrow {
     color: rgba(255, 255, 255, 0.8);
     transform: translateX(4px);
@@ -1226,28 +1290,28 @@ video::-webkit-media-controls-panel {
   .opportunities-page {
     padding: 1.5rem;
   }
-  
+
   .opportunities-title {
     font-size: 1.75rem;
     margin: 4rem 0 2rem;
   }
-  
+
   .opportunities-container {
     max-width: 600px;
     margin: 0 auto;
     width: 100%;
   }
-  
+
   .opportunity-row {
     padding: 1.25rem 1.5rem;
   }
-  
+
   .opportunity-icon-wrapper {
     width: 4rem;
     height: 4rem;
     min-width: 4rem;
   }
-  
+
   .opportunity-name {
     font-size: 1.25rem;
   }

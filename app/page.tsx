@@ -8,17 +8,26 @@ export default function Home() {
       <div className="button-container">
         <Link href="/videos" className="landing-button landing-button-primary">
           <svg className="button-icon" viewBox="0 0 24 24" fill="currentColor">
-            <circle cx="12" cy="12" r="11" fill="white" opacity="0.9"/>
-            <path d="M10 8l6 4-6 4V8z" fill="#000"/>
+            <circle cx="12" cy="12" r="11" fill="white" opacity="0.9" />
+            <path d="M10 8l6 4-6 4V8z" fill="#000" />
           </svg>
           <span>Ustoz AI orqali daromad topganlar</span>
         </Link>
-        
+
         <Link href="/opportunities" className="landing-button landing-button-secondary">
           <svg className="button-icon" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" opacity="0.8">
             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
           </svg>
           <span>Moliyaviy imkoniyatlar</span>
+        </Link>
+
+        {/* New Freelancing Button */}
+        <Link href="/freelancing" className="landing-button landing-button-freelancing">
+          <svg className="button-icon" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" opacity="0.8">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+          <span>Freelancing</span>
         </Link>
       </div>
     </main>
