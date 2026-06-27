@@ -37,19 +37,19 @@ const mockVideos: Video[] = [
     id: '4',
     title: 'Ustoz AI Natija 4',
     video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/IMG_6343.MP4',
-    thumbnail_url: '/2.png',
+    thumbnail_url: '/new_thumb_img3.png',
   },
   {
     id: '5',
     title: 'Ustoz AI Natija 5',
     video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/IMG_6433.MP4',
-    thumbnail_url: '/1.png',
+    thumbnail_url: '/new_thumb_img1.png',
   },
   {
     id: '6',
     title: 'Ustoz AI Natija 6',
     video_url: 'https://pub-7f4e732999f740a39783172c306c439c.r2.dev/IMG_6449.MP4',
-    thumbnail_url: '/3.png',
+    thumbnail_url: '/new_thumb_img2.png',
   },
 ]
 
